@@ -5,7 +5,10 @@
 #include <PubSubClient.h>
 #include "Json.h"
 #include "mqtt.h"
+#include "Positioning/Trilateration.h"
 
-// Function to setup pin modes
-void PinModeSetup();
+
+TrilaterationManager trilaterationManager(-59.0f, 2.0f);
+void SetupTrilaterationAnchors();
+
 #endif
