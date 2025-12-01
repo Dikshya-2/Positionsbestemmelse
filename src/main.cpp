@@ -1,18 +1,29 @@
-#include <Arduino.h>
+#include "Setup.h"
 
-// put function declarations here:
-int myFunction(int, int);
+void setup()
+{
+    // Start Serial for debugging
+    Serial.begin(115200);
+    delay(1000);
 
-void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+    // Setup pins and button handlers
+    PinModeSetup();
+
+    // setup wifi and time
+    TrySetupWifi();
+    TrySetupTime();
+    TrySetupMQTT();
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-}
+void loop()
+{
+    // reconnect to wifi
+    TrySetupWifi();
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+    // reset time
+    TrySetupTime();
+
+    // keep mqtt connection alive
+    TrySetupMQTT();
+    mqtt_loop();
 }
