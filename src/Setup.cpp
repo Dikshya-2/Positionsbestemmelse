@@ -1,5 +1,7 @@
 #include "Setup.h"
 
+TrilaterationManager trilaterationManager(-59.0f, 2.0f);
+
 void SetupTrilaterationAnchors()
 {
     // Example anchor positions (in meters)
@@ -7,3 +9,5 @@ void SetupTrilaterationAnchors()
     trilaterationManager.SetAnchor(1, 5.0f, 0.0f);   // Anchor 2 at (5,0)
     trilaterationManager.SetAnchor(2, 2.5f, 4.33f);  // Anchor 3 at (2.5,4.33) forming an equilateral triangle
 }
+
+bool PipeLineMode;

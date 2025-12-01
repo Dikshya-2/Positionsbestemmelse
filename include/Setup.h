@@ -7,8 +7,9 @@
 #include "mqtt.h"
 #include "Positioning/Trilateration.h"
 
-
-TrilaterationManager trilaterationManager(-59.0f, 2.0f);
+extern TrilaterationManager trilaterationManager;
 void SetupTrilaterationAnchors();
+
+extern bool PipeLineMode;
 
 #endif
