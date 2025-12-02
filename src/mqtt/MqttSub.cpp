@@ -12,6 +12,7 @@ void MqttSub::onConnected()
 
     if (mqttClient.subscribe(_topic))
     {
+        _connected = true;
         Serial.println("Subscribed successfully");
     }
     else

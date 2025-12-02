@@ -19,6 +19,7 @@ public:
     void trySetup(bool connectedToWifi, bool timeIsSetup);
     void loop(bool connectedToWifi);
     bool _mqttIsSetup = false;
+    bool _connected = false;
 
 protected:
     bool mqtt_setup();

@@ -55,16 +55,24 @@ bool MqttBase::mqtt_setup()
 
 void MqttBase::loop(bool connectedToWifi)
 {
-    if (!connectedToWifi)
+    Serial.println("MQTT loop running");
+    if (!connectedToWifi || mqttClient.state() != -1)
     {
+        Serial.println("MQTT loop aborted: not connected to WiFi");
         return;
     }
 
+    Serial.println("MQTT client connected, running loop...");
+    Serial.println("MQTT client state: " + String(mqttClient.state()));
+    Serial.println("Checking MQTT client connection status...");
     if (!mqttClient.connected())
     {
+        Serial.println("MQTT client not connected, attempting to reconnect...");
+        delay(50);
+            
         mqtt_reconnect();
     }
-
+    Serial.println("MQTT client connected, running loop...");
     mqttClient.loop();
 }
 
@@ -79,6 +87,7 @@ void MqttBase::mqtt_reconnect()
         if (mqttClient.connect(clientId.c_str(), _user.c_str(), _pass.c_str()))
         {
             Serial.println("connected");
+            Serial.println("MQTT client state 2: " + String(mqttClient.state()));
 
             // Let derived classes run their setup (e.g. subscribe)
             onConnected();
