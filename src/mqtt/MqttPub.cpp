@@ -12,8 +12,6 @@ bool MqttPub::publish(const String& payload)
 
 void MqttPub::onConnected()
 {
-    // Publisher doesn't need to do anything special on connect
-    // (but you could log here if you like)
     Serial.print("MQTT publisher ready on topic: ");
     Serial.println(_topic);
 }

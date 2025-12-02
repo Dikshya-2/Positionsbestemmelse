@@ -1,5 +1,17 @@
 #include "mqtt/MqttBase.h"
 
+MqttBase::MqttBase()
+    : espClient(),
+      mqttClient(espClient),
+      _server(nullptr),
+      _port(0),
+      _topic(nullptr),
+      _user(""),
+      _pass("")
+{
+    _mqttIsSetup = false;
+}
+
 MqttBase::MqttBase(const char *server,
                    uint16_t port,
                    const char *topic,
@@ -18,15 +30,26 @@ void MqttBase::trySetup(bool connectedToWifi, bool timeIsSetup)
 {
     if (connectedToWifi && timeIsSetup && !_mqttIsSetup)
     {
-        _mqttIsSetup = mqtt_setup();
+        if (mqtt_setup())
+        {
+            _mqttIsSetup = true;
+            Serial.println("MQTT setup successful");
+        }
+        else
+        {
+            _mqttIsSetup = false;
+            Serial.println("MQTT setup failed");
+        }
     }
 }
 
 bool MqttBase::mqtt_setup()
 {
     // Configure MQTT over TLS
+    Serial.println("MQTT over TLS setup initializing...");
     espClient.setInsecure();
     mqttClient.setServer(_server, _port);
+    Serial.println("MQTT over TLS setup completed on Server: " + String(_server) + " Port: " + String(_port));
     return true;
 }
 

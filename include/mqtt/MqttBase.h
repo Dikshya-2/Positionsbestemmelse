@@ -3,19 +3,22 @@
 #include <Arduino.h>
 #include <WiFiClientSecure.h>
 #include <PubSubClient.h>
+#include "SetupWifi.h"
 
 class MqttBase
 {
 public:
-    MqttBase(const char* server,
+    MqttBase();
+    MqttBase(const char *server,
              uint16_t port,
-             const char* topic,
-             const String& user,
-             const String& pass);
+             const char *topic,
+             const String &user,
+             const String &pass);
 
     // Call from loop()
     void trySetup(bool connectedToWifi, bool timeIsSetup);
     void loop(bool connectedToWifi);
+    bool _mqttIsSetup = false;
 
 protected:
     bool mqtt_setup();
@@ -30,9 +33,7 @@ protected:
 
     String _user;
     String _pass;
-    const char* _server;
+    const char *_server;
     uint16_t _port;
-    const char* _topic;
-
-    bool _mqttIsSetup = false;
+    const char *_topic;
 };
