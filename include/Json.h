@@ -2,4 +2,5 @@
 #include <ArduinoJson.h>
 
 // Creates a JSON payload with the button name and timestamp
-char *CreateJson(const char *buttonName, String timeStamp);
+char *CreateNodeJson(const char *id, String timeStamp, int rssi, String payload);
+char *CreatePipelineJson(const char *id, String timeStamp, float x, float y);

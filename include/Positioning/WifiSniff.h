@@ -1,4 +1,10 @@
 #pragma once
+#include <string>
+#include <WiFi.h>
+#include <esp_wifi.h>
+#include "Json.h"
+#include "Setup.h"
+#include "mqtt.h"
 
 // Function to initialize the Wi-Fi sniffer
 void initializeWifiSniffer();

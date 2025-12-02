@@ -6,14 +6,17 @@ void setup()
     Serial.begin(115200);
     delay(1000);
 
-    Serial.print("Is this pipeline mode? (Y/N): ");
-    PipeLineMode = Serial.read() == 'Y';
-    Serial.println(PipeLineMode ? " Yes" : " No");
+    SetUpPipelineMode();
 
     // setup wifi and time
     TrySetupWifi();
     TrySetupTime();
-    TrySetupMQTT();
+
+    // stup mqtt
+    SetupMqtt();
+
+    // setup wifi sniffer
+    initializeWifiSniffer();
 }
 
 void loop()
@@ -25,6 +28,5 @@ void loop()
     TrySetupTime();
 
     // keep mqtt connection alive
-    TrySetupMQTT();
-    mqtt_loop();
+    SetupMqtt();
 }

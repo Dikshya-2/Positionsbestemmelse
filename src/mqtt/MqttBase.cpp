@@ -1,12 +1,10 @@
-#include "mqtt.h"
-#include <Arduino.h>   // for Serial, random, delay, etc.
+#include "mqtt/MqttBase.h"
 
-// Constructor
-MqttManager::MqttManager(const char* server,
-                         uint16_t port,
-                         const char* topic,
-                         const String& user,
-                         const String& pass)
+MqttBase::MqttBase(const char *server,
+                   uint16_t port,
+                   const char *topic,
+                   const String &user,
+                   const String &pass)
     : mqttClient(espClient),
       _user(user),
       _pass(pass),
@@ -16,8 +14,7 @@ MqttManager::MqttManager(const char* server,
 {
 }
 
-// Setup MQTT if WiFi and Time are ready
-void MqttManager::trySetup(bool connectedToWifi, bool timeIsSetup)
+void MqttBase::trySetup(bool connectedToWifi, bool timeIsSetup)
 {
     if (connectedToWifi && timeIsSetup && !_mqttIsSetup)
     {
@@ -25,25 +22,21 @@ void MqttManager::trySetup(bool connectedToWifi, bool timeIsSetup)
     }
 }
 
-bool MqttManager::mqtt_setup()
+bool MqttBase::mqtt_setup()
 {
     // Configure MQTT over TLS
     espClient.setInsecure();
-    // espClient.setCACert(MQTT_CA_CERT);
-
     mqttClient.setServer(_server, _port);
     return true;
 }
 
-void MqttManager::loop(bool connectedToWifi)
+void MqttBase::loop(bool connectedToWifi)
 {
-    // Only run if WiFi is connected
     if (!connectedToWifi)
     {
         return;
     }
 
-    // Ensure MQTT connection
     if (!mqttClient.connected())
     {
         mqtt_reconnect();
@@ -52,9 +45,8 @@ void MqttManager::loop(bool connectedToWifi)
     mqttClient.loop();
 }
 
-void MqttManager::mqtt_reconnect()
+void MqttBase::mqtt_reconnect()
 {
-    // Loop until reconnected
     while (!mqttClient.connected())
     {
         Serial.print("Connecting to MQTT over TLS...");
@@ -64,6 +56,9 @@ void MqttManager::mqtt_reconnect()
         if (mqttClient.connect(clientId.c_str(), _user.c_str(), _pass.c_str()))
         {
             Serial.println("connected");
+
+            // Let derived classes run their setup (e.g. subscribe)
+            onConnected();
         }
         else
         {
@@ -75,14 +70,7 @@ void MqttManager::mqtt_reconnect()
     }
 }
 
-bool MqttManager::publish(const String &payload)
+void MqttBase::onConnected()
 {
-    // Ensure MQTT connection
-    if (!mqttClient.connected())
-    {
-        mqtt_reconnect();
-    }
-
-    // Publish the message
-    return mqttClient.publish(_topic, payload.c_str());
+    // Abstract
 }
