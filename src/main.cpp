@@ -16,8 +16,7 @@ void setup()
     SetupMqtt();
 
     // setup wifi sniffer
-    // initializeWifiSniffer();
-    // TrySetupWifiSniffer();
+    TrySetupWifiSniffer();
 }
 
 void loop()
@@ -36,5 +35,5 @@ void loop()
     }
     mqttPub.loop(ConnectedToWifi);
 
-    // TrySetupWifiSniffer();
+    TrySetupWifiSniffer();
 }
