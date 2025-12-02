@@ -16,7 +16,7 @@ void setup()
     SetupMqtt();
 
     // setup wifi sniffer
-    //initializeWifiSniffer();
+    // initializeWifiSniffer();
     // TrySetupWifiSniffer();
 }
 
@@ -30,7 +30,6 @@ void loop()
 
     // keep mqtt connection alive
     SetupMqtt();
-
     if (PipeLineMode)
     {
         mqttSub.loop(ConnectedToWifi);
@@ -39,4 +38,3 @@ void loop()
 
     // TrySetupWifiSniffer();
 }
-

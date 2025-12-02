@@ -3,32 +3,36 @@
 TrilaterationManager trilaterationManager(-59.0f, 2.0f);
 
 // 192.168.0.161 wilson.local
-MqttPub mqttPub;
-MqttSub mqttSub;
+MqttPub mqttPub  = MqttPub("192.168.0.161", 8883, "esp32/DTJ/node", "elev1", "password");
+MqttSub mqttSub  = MqttSub("192.168.0.161", 8883, "esp32/DTJ/node", "elev1", "password");
 
 void SetupMqtt()
 {
-    if (!PipeLineMode && mqttPub._mqttIsSetup)
-    {
-        return;
-    }
-    else if (!PipeLineMode)
-    {
-        mqttPub = MqttPub("192.168.0.161", 8883, "esp32/DTJ/node", "node", "password");
-        mqttPub.trySetup(ConnectedToWifi, TimeIsSetup);
-    }
-    else if (PipeLineMode && mqttSub._mqttIsSetup && mqttPub._mqttIsSetup)
-    {
-        return;
-    }
-    else
-    {
-        mqttPub = MqttPub("192.168.0.161", 8883, "esp32/DTJ/node", "elev1", "password");
-        mqttSub = MqttSub("192.168.0.161", 8883, "esp32/DTJ/node", "node", "password");
-
         mqttPub.trySetup(ConnectedToWifi, TimeIsSetup);
         mqttSub.trySetup(ConnectedToWifi, TimeIsSetup);
-    }
+
+
+    // if (!PipeLineMode && mqttPub._mqttIsSetup)
+    // {
+    //     return;
+    // }
+    // else if (!PipeLineMode)
+    // {
+    //     mqttPub = MqttPub("192.168.0.161", 8883, "esp32/DTJ/node", "node", "password");
+    //     mqttPub.trySetup(ConnectedToWifi, TimeIsSetup);
+    // }
+    // else if (PipeLineMode && mqttSub._mqttIsSetup && mqttPub._mqttIsSetup)
+    // {
+    //     return;
+    // }
+    // else
+    // {
+    //     mqttPub = MqttPub("192.168.0.161", 8883, "esp32/DTJ/node", "elev1", "password");
+    //     mqttSub = MqttSub("192.168.0.161", 8883, "esp32/DTJ/node", "node", "password");
+
+    //     mqttPub.trySetup(ConnectedToWifi, TimeIsSetup);
+    //     mqttSub.trySetup(ConnectedToWifi, TimeIsSetup);
+    // }
 }
 
 void SetupTrilaterationAnchors()

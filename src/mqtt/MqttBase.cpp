@@ -56,9 +56,14 @@ bool MqttBase::mqtt_setup()
 void MqttBase::loop(bool connectedToWifi)
 {
     Serial.println("MQTT loop running");
-    if (!connectedToWifi || mqttClient.state() != -1)
+    if (!connectedToWifi)
     {
         Serial.println("MQTT loop aborted: not connected to WiFi");
+        return;
+    }
+    if (!_mqttIsSetup)
+    {
+        Serial.println("MQTT loop aborted: MQTT not set up");
         return;
     }
 
