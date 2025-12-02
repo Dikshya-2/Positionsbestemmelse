@@ -15,7 +15,10 @@ void SetupMqtt()
     }
 
     mqttPub.trySetup(TimeIsSetup, ConnectedToWifi);
-    //mqttSub.trySetup(TimeIsSetup, ConnectedToWifi);
+    
+    if(PipeLineMode){
+        mqttSub.trySetup(TimeIsSetup, ConnectedToWifi);
+    }
 }
 
 void SetupTrilaterationAnchors()
