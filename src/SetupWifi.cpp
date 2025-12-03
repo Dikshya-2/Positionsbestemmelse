@@ -1,5 +1,4 @@
 #include "SetupWifi.h"
-#include "esp_sntp.h"
 
 const char *ssid = "TEC-IOT";
 const char *password = "42090793";
@@ -52,6 +51,7 @@ void TrySetupWifi()
     // Setup Wifi
     if (WiFi.status() != WL_CONNECTED)
     {
+        TimeIsSetup = false;
         ConnectWiFi();
     }
 }
