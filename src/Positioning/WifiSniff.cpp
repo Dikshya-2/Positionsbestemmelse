@@ -38,7 +38,7 @@ static void promiscuousCallback(void *buf, wifi_promiscuous_pkt_type_t type)
     Serial.println(json);
     if (json != nullptr)
     {
-      mqttPub.publish(json); // Publish JSON via MQTT
+      mqttPubNode->publish(json); // Publish JSON via MQTT
     }
 
     Serial.print("RSSI: ");
@@ -58,11 +58,11 @@ String macAddressToStr(uint8_t *mac)
 
 void TrySetupWifiSniffer()
 {
-  if (mqttPub._connected && !WifiSnifferInitialized)
+  if (mqttPubNode->_connected && !WifiSnifferInitialized)
   {
     initializeWifiSniffer();
   }
-  if (PipeLineMode && !mqttSub._connected && !WifiSnifferInitialized)
+  if (PipeLineMode && !mqttSub->_connected && !WifiSnifferInitialized)
   {
   }
 }

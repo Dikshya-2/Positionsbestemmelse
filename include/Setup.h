@@ -13,8 +13,9 @@
 #include "Positioning/WifiSniff.h"
 
 extern TrilaterationManager trilaterationManager;
-extern MqttPub mqttPub;
-extern MqttSub mqttSub;
+extern MqttPub *mqttPubNode;
+extern MqttPub *mqttPubPipe;
+extern MqttSub *mqttSub;
 
 void SetupTrilaterationAnchors();
 void SetUpPipelineMode();
