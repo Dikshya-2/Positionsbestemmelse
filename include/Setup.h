@@ -18,7 +18,7 @@ extern MqttSub *mqttSub;
 
 void SetupTrilaterationAnchors();
 void SetUpPipelineMode();
-void SetupMqtt();
+void TrySetupMqtt();
 extern bool PipeLineMode;
 
 #endif

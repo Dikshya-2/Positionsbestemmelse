@@ -8,7 +8,7 @@ MqttPub *mqttPubNode = nullptr;
 MqttPub *mqttPubPipe = nullptr;
 MqttSub *mqttSub = nullptr;
 
-void SetupMqtt()
+void TrySetupMqtt()
 {
     if (PipeLineMode)
     {

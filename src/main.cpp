@@ -11,9 +11,7 @@ void setup()
     // setup wifi and time
     TrySetupWifi();
     TrySetupTime();
-
-    // stup mqtt
-    SetupMqtt();
+    TrySetupMqtt();
 
     // setup wifi sniffer
     TrySetupWifiSniffer();
@@ -28,7 +26,7 @@ void loop()
     TrySetupTime();
 
     // keep mqtt connection alive
-    SetupMqtt();
+    TrySetupMqtt();
     if (PipeLineMode)
     {
         mqttSub->loop(WiFi.status() == WL_CONNECTED);
