@@ -1,8 +1,6 @@
 #pragma once
 #include <WiFi.h>
 
-extern bool ConnectedToWifi;
-
 // Connects to WiFi using defined SSID and PASSWORD
 bool ConnectWiFi();
 

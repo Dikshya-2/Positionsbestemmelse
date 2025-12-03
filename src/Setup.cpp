@@ -17,7 +17,7 @@ void SetupMqtt()
         }
         if (!mqttPubPipe->_mqttIsSetup)
         {
-            mqttPubPipe->trySetup(ConnectedToWifi, TimeIsSetup);
+            mqttPubPipe->trySetup(WiFi.status() == WL_CONNECTED, TimeIsSetup);
         }
 
         if (!mqttSub) {
@@ -25,7 +25,7 @@ void SetupMqtt()
         }
         if (!mqttSub->_mqttIsSetup)
         {
-            mqttSub->trySetup(ConnectedToWifi, TimeIsSetup);
+            mqttSub->trySetup(WiFi.status() == WL_CONNECTED, TimeIsSetup);
             mqttSub->setCallback(MqttSub::StaticCallback);
         }
     }
@@ -35,7 +35,7 @@ void SetupMqtt()
     }
     if (!mqttPubNode->_mqttIsSetup)
     {
-        mqttPubNode->trySetup(ConnectedToWifi, TimeIsSetup);
+        mqttPubNode->trySetup(WiFi.status() == WL_CONNECTED, TimeIsSetup);
     }
 }
 

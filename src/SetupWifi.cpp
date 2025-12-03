@@ -3,7 +3,6 @@
 
 const char *ssid = "TEC-IOT";
 const char *password = "42090793";
-bool ConnectedToWifi = false;
 
 bool ConnectWiFi()
 {
@@ -51,8 +50,8 @@ bool ConnectWiFi()
 void TrySetupWifi()
 {
     // Setup Wifi
-    if (!ConnectedToWifi)
+    if (WiFi.status() != WL_CONNECTED)
     {
-        ConnectedToWifi = ConnectWiFi();
+        ConnectWiFi();
     }
 }

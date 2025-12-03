@@ -31,9 +31,9 @@ void loop()
     SetupMqtt();
     if (PipeLineMode)
     {
-        mqttSub->loop(ConnectedToWifi);
+        mqttSub->loop(WiFi.status() == WL_CONNECTED);
     }
-    mqttPubNode->loop(ConnectedToWifi);
+    mqttPubNode->loop(WiFi.status() == WL_CONNECTED);
 
     TrySetupWifiSniffer();
 }

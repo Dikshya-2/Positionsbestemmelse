@@ -61,7 +61,7 @@ String getFormattedTime(const struct tm &timeinfo)
 void TrySetupTime()
 {
     // Setup time if WiFi is connected and time not yet set up
-    if (ConnectedToWifi && !TimeIsSetup)
+    if (WiFi.status() == WL_CONNECTED && !TimeIsSetup)
     {
         TimeIsSetup = SetupTime();
     }
