@@ -4,7 +4,6 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include "Json.h"
-#include "mqtt.h"
 #include "Positioning/Trilateration.h"
 #include "SetupWifi.h"
 #include "SetupTime.h"

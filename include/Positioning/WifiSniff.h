@@ -4,7 +4,6 @@
 #include <esp_wifi.h>
 #include "Json.h"
 #include "Setup.h"
-#include "mqtt.h"
 
 extern bool WifiSnifferInitialized;
 // Function to initialize the Wi-Fi sniffer
