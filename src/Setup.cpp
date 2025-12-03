@@ -39,6 +39,16 @@ void TrySetupMqtt()
     }
 }
 
+void KeepMqttAlive()
+{
+    if (PipeLineMode)
+    {
+        mqttSub->loop(WiFi.status() == WL_CONNECTED);
+        mqttPubPipe->loop(WiFi.status() == WL_CONNECTED);
+    }
+    mqttPubNode->loop(WiFi.status() == WL_CONNECTED);
+}
+
 void SetupTrilaterationAnchors()
 {
     // Example anchor positions (in meters)

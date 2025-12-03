@@ -27,11 +27,7 @@ void loop()
 
     // keep mqtt connection alive
     TrySetupMqtt();
-    if (PipeLineMode)
-    {
-        mqttSub->loop(WiFi.status() == WL_CONNECTED);
-    }
-    mqttPubNode->loop(WiFi.status() == WL_CONNECTED);
+    KeepMqttAlive();
 
     TrySetupWifiSniffer();
 }
