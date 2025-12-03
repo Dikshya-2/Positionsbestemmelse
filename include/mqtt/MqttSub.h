@@ -12,6 +12,7 @@ public:
 
     // Wrap PubSubClient's setCallback
     void setCallback(MQTT_CALLBACK_SIGNATURE);
+    static void StaticCallback(char *topic, byte *payload, unsigned int length);
 
 protected:
     void onConnected() override;  // subscribe when connected

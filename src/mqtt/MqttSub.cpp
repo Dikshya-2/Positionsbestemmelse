@@ -20,3 +20,18 @@ void MqttSub::onConnected()
         Serial.println("Subscription failed");
     }
 }
+
+void MqttSub::StaticCallback(char *topic, byte *payload, unsigned int length)
+{
+    // Payload is NOT null-terminated, so build a String
+    String message;
+    for (unsigned int i = 0; i < length; i++)
+    {
+        message += (char)payload[i];
+    }
+
+    Serial.print("Got message on topic [");
+    Serial.print(topic);
+    Serial.print("]: ");
+    Serial.println(message);
+}
