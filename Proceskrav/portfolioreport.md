@@ -203,8 +203,49 @@ Because movement patterns can relate to individuals, we must:
 Test setup, quantitative results, and visualizations.
 
 ## Discussion
+This project revealed several limitations and areas for improvement in the design and implementation of the indoor positioning system.
 
-Critical assessment of limitations and proposed improvements.
+**Data Flow Challenges.**
+During initial attempts, we tried using the device pipeline directly to handle incoming data from the **ESP32** nodes. This approach proved unreliable: data was often lost or incorrectly processed due to issues in the pipeline configuration. Switching to a direct **MQTT** broker approach improved reliability, allowing subscriber callbacks to correctly receive and process incoming messages for trilateration.
+
+> Lessons learned:
+>- Ensuring a stable and correctly configured data flow is critical for accurate position estimation.
+>- Callback functions must be thoroughly tested to confirm that all messages from the nodes are processed without loss.
+
+**ESP32 Limitations.**
+Our original design considered each **ESP32** node acting as both publisher and subscriber, forwarding data through multiple brokers. This proved impractical because:
+-   The **ESP32**’s limited memory and processing capacity caused bottlenecks.
+-   Complex message routing introduced risks of loops and increased latency.
+
+> Lesson learned:
+>- Assigning multiple responsibilities to resource-constrained devices increases the risk of data loss and system instability.
+
+**Proposed Improvements.**
+Based on these observations, we adopted a simpler, more robust approach:
+
+**ESP32** nodes act solely as publishers, sending data to dedicated **MQTT** topics.
+A central computer runs a C# application that subscribes to the topics, performs trilateration, and processes incoming data.
+
+This separation of responsibilities reduces load on the nodes, simplifies debugging, and ensures a reliable and scalable data flow.
+
+**Observations from Logs**
+From our experiment logs:
+
+- Subscriber callbacks successfully received and processed node data for trilateration.
+
+- Using queues on the server side allows orderly processing, even if nodes send bursts of data.
+
+- Moving the pipeline to a central computer provides flexibility for data analysis, visualization, and **GDPR**-compliant handling.
+
+**Limitations and Future Work.**
+Indoor **RSSI** measurements remain noisy due to multipath effects, reflections, and **MAC** address randomization.
+
+Trilateration accuracy depends on proper calibration of the path-loss exponent and reference **RSSI**.
+
+>**Future improvements could include:**
+>- Adding more anchor nodes to reduce positional error.
+>- Implementing filtering or smoothing of **RSSI** measurements.
+>- Exploring fingerprinting methods to improve indoor positioning accuracy.
 
 ## Conclusion
 
