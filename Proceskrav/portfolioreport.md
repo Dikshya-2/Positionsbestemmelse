@@ -16,12 +16,43 @@ The objective of this project is to build a simple IoT system using multiple ESP
 
 ## System Architecture
 
-High-level overview of the system components and data flow.
+The system is composed of four primary components:
+
+**3.1 ESP32 Sniffer Nodes**
+
+- Operate in Wi-Fi promiscuous mode
+- Capture probe requests from nearby devices
+- Measure RSSI and timestamp events
+- Hash detected MAC addresses for privacy
+- Publish data to the MQTT NodeTopic (raw sensor data)
+
+**3.2 MQTT Server**
+
+- Acts as a local, lightweight communication hub
+- Receives messages from all ESP32 nodes via NodeTopic
+- Organizes and routes node data to backend subscribers
+- Provides a second topic — DataTopic — for processed location results
+- Ensures reliable message forwarding to backend and visualization layers
+
+**3.3 Backend Processing**
+
+- Subscribes to NodeTopic to ingest real-time RSSI data
+- Applies filtering, smoothing, and validation
+- Performs trilateration using data from at least three nodes
+- Publishes position results to DataTopic
+- Generates data for heatmaps, occupancy counts, and movement metrics
+
+**3.4 Visualization and Dashboard**
+
+Subscribes to DataTopic
+Displays estimated (x, y) coordinates of detected devices
+Renders historical charts, device density, and movement trends
+Supports real-time monitoring for analytics and operations
 
 ## Hardware & Software
 
 **Hardware**
- The system is based on ESP32 IoT devices equipped with Wi-Fi capabilities, used to detect nearby devices by scanning for Wi-Fi probe requests. Multiple ESP32 nodes are deployed at strategic locations to measure the RSSI (Received Signal Strength Indicator) from nearby mobile devices. This data is transmitted to an MQTT server for further processing.
+ The system is based on ESP32 IoT devices (ESP32‑DevKit‑V1 modules) equipped with Wi-Fi capabilities, used to detect nearby devices by scanning for Wi-Fi probe requests. Multiple ESP32 nodes are deployed at strategic locations to measure the RSSI (Received Signal Strength Indicator) from nearby mobile devices. This data is transmitted to an MQTT server for further processing.
 
 **Software:** The development is done using the Arduino IDE with libraries such as ArduinoJson for data serialization and PubSubClient (MQTT) for publishing data. The trilateration algorithm uses the RSSI data from multiple nodes to estimate the device's position. The system is designed to comply with GDPR regulations by hashing MAC addresses to ensure privacy.
 
