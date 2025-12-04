@@ -20,7 +20,22 @@ High-level overview of the system components and data flow.
 
 ## Hardware & Software
 
-Description of the physical build and software stack.
+**Hardware**
+ The system is based on ESP32 IoT devices equipped with Wi-Fi capabilities, used to detect nearby devices by scanning for Wi-Fi probe requests. Multiple ESP32 nodes are deployed at strategic locations to measure the RSSI (Received Signal Strength Indicator) from nearby mobile devices. This data is transmitted to an MQTT server for further processing.
+
+**Software:** The development is done using the Arduino IDE with libraries such as ArduinoJson for data serialization and PubSubClient (MQTT) for publishing data. The trilateration algorithm uses the RSSI data from multiple nodes to estimate the device's position. The system is designed to comply with GDPR regulations by hashing MAC addresses to ensure privacy.
+
+The software handles data collection, processing, and transmission, with a focus on minimizing personal data collection to comply with GDPR regulations.
+
+## Process & Technologies
+**Technologies Used:**
+**Wi-Fi Sniffing:** RSSI values are captured using ESP32 nodes in promiscuous mode to detect Wi-Fi probe requests.
+
+**Trilateration:** Using the RSSI values from at least three different ESP32 nodes, distances are estimated, and a trilateration algorithm is applied to calculate the approximate (x, y) position of the device.
+
+**MQTT Protocol:** Data is sent from ESP32 nodes to a local MQTT broker, where it is processed and stored for visualization or further analysis.
+
+**Development Process:** The project was developed iteratively, starting with basic data collection, followed by implementation of the trilateration algorithm and testing the system for accuracy in indoor environments.
 
 ## Data Collection
 
