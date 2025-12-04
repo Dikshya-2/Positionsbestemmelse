@@ -16,7 +16,13 @@ The objective of this project is to build a simple IoT system using multiple ESP
 
 ## System Architecture
 
-High-level overview of the system components and data flow.
+**Sequence Diagram – Short Description**
+
+The sequence diagram shows how data flows through our positioning system. Each IoT node publishes its RSSI readings to a specific MQTT topic on the local broker. The computer subscribes to the node topics and receives the incoming measurements from the broker. Once the computer has collected data from multiple nodes, it performs the trilateration calculation locally to estimate the device position. After computing the result, the computer publishes the processed position data to a separate MQTT data topic, where it can be visualized or logged.
+
+
+![Sequence Diagram](diagram.png)
+
 
 ## Hardware & Software
 
