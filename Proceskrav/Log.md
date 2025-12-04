@@ -40,3 +40,4 @@
    -  The simplest and most robust approach is to move the pipeline to a central computer, using a C# application to perform trilateration and process incoming data.
    -  ESP32 nodes act solely as publishers, sending data to separate topics that the computer subscribes to.
    -  This separates responsibilities, reduces load on the ESP32 devices, simplifies debugging, and ensures reliable, scalable data flow.
+

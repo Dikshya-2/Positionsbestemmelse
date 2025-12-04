@@ -81,12 +81,30 @@ Capturing these fields ensures that the system has all the necessary information
     *   Payload size and message frequency were optimized to prevent ESP32 crashes, ensuring consistent and reliable data capture during calibration tests.
 
 ## Positioning Method
+The project estimates the positions of detected Wi-Fi devices using RSSI-based trilateration. Each device’s signal strength is measured at three fixed anchor nodes with known coordinates. These RSSI values are converted into distances using a log-distance path loss model:
+>d = 10^((RSSI\_ref - RSSI) / (10 × n))
 
+#### Where:
+*   d= estimated distance (meters)
+    
+*   RSSI\_ref= reference RSSI at 1 meter
+    
+*   RSSI= measured signal strength
+    
+*   n= path-loss exponent, calibrated experimentally
+    
+
+#### Typical Values used in this project:
+- Indoor Environment
+>n = 2.0 - 4.0
+>**RSSI\_ref = -69 dBm
+
+- Outdoor Environment
+>n = 2.0 - 3.0
+>RSSI\_ref = -82 dBm
 
 **Trilateration Mathematics**
-
-Using the distances d₀, d₁, d₂ to three known anchor nodes at positions (x₀, y₀), (x₁, y₁), (x₂, y₂), the estimated device position (x, y) is calculated by solving the system of equations:
-
+Given distances d0,d1,d2d\_0, d\_1, d\_2d0​,d1​,d2​ to three anchors at positions (x0,y0),(x1,y1),(x2,y2)(x\_0, y\_0), (x\_1, y\_1), (x\_2, y\_2)(x0​,y0​),(x1​,y1​),(x2​,y2​), the device position (x,y)(x, y)(x,y) is found by solving:
 >(x - xᵢ)² + (y - yᵢ)² = dᵢ², i = 0, 1, 2
 
 This can be solved using a linearized least-squares approach, yielding:
@@ -229,6 +247,11 @@ Summary of achievements and lessons learned.
 >
 >- Opinion 05/2014 on Anonymisation Techniques (hashing = pseudonymisation, not anonymisation)
 >- Opinions on online identifiers as personal data
+>
+>**Mathematics / Trilateration**
+>- SpringerLink. RSSI-based indoor positioning methods. Available at: https://link.springer.com/article/10.1186/s13673-020-00236-8
+>- ChatGPT (OpenAI). Explanation of trilateration and linearized least-squares methods for indoor positioning. December 2025.
+
 
 ## Appendices
 
