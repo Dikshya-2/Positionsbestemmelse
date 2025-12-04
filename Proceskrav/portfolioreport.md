@@ -24,9 +24,82 @@ Description of the physical build and software stack.
 
 ## Data Collection
 
-What data is captured, why it matters, and how calibration was performed.
+**Captured Data**
+
+The ESP32 nodes capture the following information for each detected Wi-Fi signal:
+
+1.  **NodeID** – Identifies the specific ESP32 node collecting the data.
+    
+2.  **Device ID / MAC** – Identifies the detected device sending the Wi-Fi probe. This is personal data under GDPR.
+    
+3.  **Timestamp** – Records when the packet was captured, enabling temporal correlation between nodes.
+    
+4.  **RSSI (Received Signal Strength Indicator)** – Measures signal strength of the detected device; crucial for estimating distances in trilateration.
+    
+5.  **Payload / Additional Data** – Contains numeric readings or counters sent by the device, used for monitoring and debugging.
+    
+6.  **Position (x, y)** – Calculated in the pipeline after trilateration, representing the estimated location of the detected device.
+    
+
+### Why It Matters
+
+*   **RSSI values** are directly used to estimate distances between nodes and target devices, which is fundamental for trilateration.
+    
+*   **Timestamps** allow synchronization of measurements across multiple nodes to accurately reconstruct movement and location.
+    
+*   **NodeID and Device ID** ensure that measurements can be traced back to specific nodes and devices while maintaining privacy via hashing.
+    
+*   **Payload** provides additional context for testing, debugging, or validating signal data.
+    
+*   **Position** is the main output for the system, used for evaluating trilateration accuracy.
+    
+
+Capturing these fields ensures that the system has all the necessary information to calculate positions, analyze signal behavior, and debug issues effectively.
+
+### How Calibration Was Performed
+
+1.  **JSON Formatting & Validation:**
+    
+    *   Data is serialized into JSON for consistent structure and deserialized at the pipeline.
+        
+    *   Malformed messages are detected and discarded, ensuring only valid data is used.
+        
+2.  **RSSI Calibration:**
+    
+    *   RSSI values were compared against known distances under controlled conditions to establish a mapping from signal strength to distance.
+        
+    *   Calibration curves or reference measurements were used to correct for environmental factors like interference or signal attenuation.
+        
+3.  **Pipeline Testing:**
+    
+    *   Received JSON messages are processed in the pipeline, and positions are calculated using trilateration algorithms.
+        
+    *   Comparison with ground truth or known node positions allows verification and adjustment of calculations.
+        
+4.  **Memory and Processing Considerations:**
+    
+    *   Payload size and message frequency were optimized to prevent ESP32 crashes, ensuring consistent and reliable data capture during calibration tests.
 
 ## Positioning Method
+
+
+**Trilateration Mathematics**
+
+Using the distances d₀, d₁, d₂ to three known anchor nodes at positions (x₀, y₀), (x₁, y₁), (x₂, y₂), the estimated device position (x, y) is calculated by solving the system of equations:
+
+>(x - xᵢ)² + (y - yᵢ)² = dᵢ², i = 0, 1, 2
+
+This can be solved using a linearized least-squares approach, yielding:
+
+>x = (CE - BF) / (AE - BD)y = (AF - CD) / (AE - BD)
+
+#### Matrix Coefficients:
+
+>A = 2(x₁ - x₀)B = 2(y₁ - y₀)C = d₀² - d₁² - x₀² + x₁² - y₀² + y₁²
+>
+>D = 2(x₂ - x₀)E = 2(y₂ - y₀)F = d₀² - d₂² - x₀² + x₂² - y₀² + y₂²
+
+**Output:** The system returns the estimated (x, y) coordinates of the device, which can be visualised as a heatmap or used for further analysis.
 
 The chosen positioning approach and the mathematical formulation.
 
