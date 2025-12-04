@@ -197,12 +197,18 @@ Because movement patterns can relate to individuals, we must:
 >
 >The project processes personal data (**MAC** addresses and derived movement information). It is not sensitive, but still protected. We reduce risk through hashing, minimal data collection, short retention, and strict purpose limitation. This aligns with the **GDPR** principles of dataminimization, purpose limitation, and risk reduction.
 >
->
+
+
 ## Experiments & Results
+This section presents the experimental setup, observations, and insights gained during the project.
 
-Test setup, quantitative results, and visualizations.
+**Test Setup**
+- ESP32 Nodes: Three nodes placed at known coordinates, -operating in Wi-Fi promiscuous mode to capture nearby device signals.
+- Data Flow: Nodes publish RSSI measurements and device identifiers to dedicated MQTT topics.
+- Backend: A central computer subscribes to the MQTT topics, performs trilateration, and processes the incoming data.
+- Data Logged: RSSI, timestamps, node coordinates, and anonymized device identifiers.
 
-## Discussion
+## Observations & Data Flow Challenges
 This project revealed several limitations and areas for improvement in the design and implementation of the indoor positioning system.
 
 **Data Flow Challenges.**
