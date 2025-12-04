@@ -155,6 +155,7 @@ This project collects data from nearby wireless devices (Wi-Fi probes). Because 
 
 No. **MAC** addresses are ordinary personal data, not sensitive categories (health, biometrics, religion, etc.).
 
+
 ### When is the data personal?
 
 - Static MACs → clearly personal.
@@ -182,8 +183,8 @@ Because movement patterns can relate to individuals, we must:
 - delete data quickly
 - pseudonymize/anonymize whenever possible
 
-## How we minimize data (**GDPR** compliance)
->
+## How we could minimize data (**GDPR** compliance)
+> To reduce personal data risks when handling MAC addresses, the following measures are recommended:
 > **1. No raw MAC addresses stored**
 > - MACs are hashed (e.g., **SHA**-**256** + salt) before storage.
 >
@@ -212,14 +213,61 @@ Because movement patterns can relate to individuals, we must:
 >
 >The project processes personal data (**MAC** addresses and derived movement information). It is not sensitive, but still protected. We reduce risk through hashing, minimal data collection, short retention, and strict purpose limitation. This aligns with the **GDPR** principles of dataminimization, purpose limitation, and risk reduction.
 >
->
+
+
 ## Experiments & Results
+This section presents the experimental setup, observations, and insights gained during the project.
 
-Test setup, quantitative results, and visualizations.
+**Test Setup**
+- ESP32 Nodes: Three nodes placed at known coordinates, -operating in Wi-Fi promiscuous mode to capture nearby device signals.
+- Data Flow: Nodes publish RSSI measurements and device identifiers to dedicated MQTT topics.
+- Backend: A central computer subscribes to the MQTT topics, performs trilateration, and processes the incoming data.
+- Data Logged: RSSI, timestamps, node coordinates, and anonymized device identifiers.
 
-## Discussion
+## Observations & Data Flow Challenges
+This project revealed several limitations and areas for improvement in the design and implementation of the indoor positioning system.
 
-Critical assessment of limitations and proposed improvements.
+**Data Flow Challenges.**
+During initial attempts, we tried using the device pipeline directly to handle incoming data from the **ESP32** nodes. This approach proved unreliable: data was often lost or incorrectly processed due to issues in the pipeline configuration. Switching to a direct **MQTT** broker approach improved reliability, allowing subscriber callbacks to correctly receive and process incoming messages for trilateration.
+
+> Lessons learned:
+>- Ensuring a stable and correctly configured data flow is critical for accurate position estimation.
+>- Callback functions must be thoroughly tested to confirm that all messages from the nodes are processed without loss.
+
+**ESP32 Limitations.**
+Our original design considered each **ESP32** node acting as both publisher and subscriber, forwarding data through multiple brokers. This proved impractical because:
+-   The **ESP32**’s limited memory and processing capacity caused bottlenecks.
+-   Complex message routing introduced risks of loops and increased latency.
+
+> Lesson learned:
+>- Assigning multiple responsibilities to resource-constrained devices increases the risk of data loss and system instability.
+
+**Proposed Improvements.**
+Based on these observations, we adopted a simpler, more robust approach:
+
+**ESP32** nodes act solely as publishers, sending data to dedicated **MQTT** topics.
+A central computer runs a C# application that subscribes to the topics, performs trilateration, and processes incoming data.
+
+This separation of responsibilities reduces load on the nodes, simplifies debugging, and ensures a reliable and scalable data flow.
+
+**Observations from Logs**
+From our experiment logs:
+
+- Subscriber callbacks successfully received and processed node data for trilateration.
+
+- Using queues on the server side allows orderly processing, even if nodes send bursts of data.
+
+- Moving the pipeline to a central computer provides flexibility for data analysis, visualization, and **GDPR**-compliant handling.
+
+**Limitations and Future Work.**
+Indoor **RSSI** measurements remain noisy due to multipath effects, reflections, and **MAC** address randomization.
+
+Trilateration accuracy depends on proper calibration of the path-loss exponent and reference **RSSI**.
+
+>**Future improvements could include:**
+>- Adding more anchor nodes to reduce positional error.
+>- Implementing filtering or smoothing of **RSSI** measurements.
+>- Exploring fingerprinting methods to improve indoor positioning accuracy.
 
 ## Conclusion
 
