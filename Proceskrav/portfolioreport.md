@@ -23,7 +23,6 @@ The system is composed of four primary components:
 - Operate in Wi-Fi promiscuous mode
 - Capture probe requests from nearby devices
 - Measure RSSI and timestamp events
-- Hash detected MAC addresses for privacy
 - Publish data to the MQTT NodeTopic (raw sensor data)
 
 **3.2 MQTT Server**
@@ -48,6 +47,14 @@ Subscribes to DataTopic
 Displays estimated (x, y) coordinates of detected devices
 Renders historical charts, device density, and movement trends
 Supports real-time monitoring for analytics and operations
+
+**Sequence Diagram – Short Description**
+
+The sequence diagram shows how data flows through our positioning system. Each IoT node publishes its RSSI readings to a specific MQTT topic on the local broker. The computer subscribes to the node topics and receives the incoming measurements from the broker. Once the computer has collected data from multiple nodes, it performs the trilateration calculation locally to estimate the device position. After computing the result, the computer publishes the processed position data to a separate MQTT data topic, where it can be visualized or logged.
+
+
+![Sequence Diagram](diagram.png)
+
 
 ## Hardware & Software
 
