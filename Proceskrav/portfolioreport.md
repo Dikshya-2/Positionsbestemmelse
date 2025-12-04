@@ -140,6 +140,7 @@ This project collects data from nearby wireless devices (Wi-Fi probes). Because 
 
 No. **MAC** addresses are ordinary personal data, not sensitive categories (health, biometrics, religion, etc.).
 
+
 ### When is the data personal?
 
 - Static MACs → clearly personal.
@@ -167,8 +168,8 @@ Because movement patterns can relate to individuals, we must:
 - delete data quickly
 - pseudonymize/anonymize whenever possible
 
-## How we minimize data (**GDPR** compliance)
->
+## How we could minimize data (**GDPR** compliance)
+> To reduce personal data risks when handling MAC addresses, the following measures are recommended:
 > **1. No raw MAC addresses stored**
 > - MACs are hashed (e.g., **SHA**-**256** + salt) before storage.
 >
