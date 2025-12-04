@@ -60,13 +60,10 @@ In practice: MACs are treated as personal data at all times.
 
 Yes. Adding timestamps and node positions creates movement patterns, such as:
 
-- visits
-
-- duration of stay
-
-- repeated presence
-
-- devices moving together
+- Visits
+- Duration of stay
+- Repeated presence
+- Devices moving together
 
 This increases the responsibility for proper handling.
 
@@ -75,14 +72,11 @@ This increases the responsibility for proper handling.
 Because movement patterns can relate to individuals, we must:
 
 - limit what we collect
-
 - avoid identification
-
 - delete data quickly
-
 - pseudonymize/anonymize whenever possible
 
->## How we minimize data (**GDPR** compliance)
+## How we minimize data (**GDPR** compliance)
 >
 > **1. No raw MAC addresses stored**
 > - MACs are hashed (e.g., **SHA**-**256** + salt) before storage.
