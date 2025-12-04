@@ -1,9 +1,10 @@
 #include <ArduinoJson.h>
 #include "Json.h"
 
-char *CreateNodeJson(const char *id, String timeStamp, int rssi, String payload)
+char *CreateNodeJson(const char *id, String timeStamp, int rssi, String payload, String nodeID)
 {
     JsonDocument doc;
+    doc["NodeID"] = nodeID;
     doc["ID"] = id;
     doc["Time"] = timeStamp;
     doc["RSSI"] = rssi;
@@ -14,19 +15,19 @@ char *CreateNodeJson(const char *id, String timeStamp, int rssi, String payload)
     return jsonBuffer;
 }
 
-char *CreatePipelineJson(const char *id, String timeStamp, float x, float y)
+char *CreatePipelineJson(const char *id, const String timeStamp, float x, float y)
 {
-    static char jsonBuffer[200];  // increased size for safety
+    static char jsonBuffer[200];
 
-    StaticJsonDocument<200> doc;
+    JsonDocument doc;
     doc["ID"] = id;
     doc["Time"] = timeStamp;
 
-    JsonArray coords = doc["Coordinates"].to<JsonArray>();
-    coords.add(x);
-    coords.add(y);
+    // Create "position": [x, y]
+    doc["Position"].to<JsonArray>();
+    doc["Position"].add(x);
+    doc["Position"].add(y);
 
     serializeJson(doc, jsonBuffer, sizeof(jsonBuffer));
     return jsonBuffer;
 }
-

@@ -12,7 +12,8 @@ void TrySetupMqtt()
 {
     if (PipeLineMode)
     {
-        if (!mqttPubPipe) {
+        if (!mqttPubPipe)
+        {
             mqttPubPipe = new MqttPub("192.168.0.161", 8883, "esp32/DTJ/data", "elev1", "password");
         }
         if (!mqttPubPipe->_mqttIsSetup)
@@ -20,7 +21,8 @@ void TrySetupMqtt()
             mqttPubPipe->trySetup(WiFi.status() == WL_CONNECTED, TimeIsSetup);
         }
 
-        if (!mqttSub) {
+        if (!mqttSub)
+        {
             mqttSub = new MqttSub("192.168.0.161", 8883, "esp32/DTJ/node", "elev1", "password");
         }
         if (!mqttSub->_mqttIsSetup)
@@ -30,7 +32,8 @@ void TrySetupMqtt()
         }
     }
 
-    if (!mqttPubNode) {
+    if (!mqttPubNode)
+    {
         mqttPubNode = new MqttPub("192.168.0.161", 8883, "esp32/DTJ/node", "elev1", "password");
     }
     if (!mqttPubNode->_mqttIsSetup)

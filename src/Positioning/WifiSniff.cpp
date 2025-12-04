@@ -33,7 +33,7 @@ static void promiscuousCallback(void *buf, wifi_promiscuous_pkt_type_t type)
     uint16_t seqCtrl = payload[22] | (payload[23] << 8);
 
     // Build Json and send it to pipeline
-    char *json = CreateNodeJson(mac.c_str(), String(t), rssi, String(seqCtrl));
+    char *json = CreateNodeJson(mac.c_str(), String(t), rssi, String(seqCtrl), WiFi.macAddress());
     Serial.print("Created JSON: ");
     Serial.println(json);
     if (json != nullptr)

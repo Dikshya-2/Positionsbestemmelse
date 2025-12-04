@@ -70,7 +70,7 @@ void MqttBase::loop(bool connectedToWifi)
     {
         Serial.println("MQTT client not connected, attempting to reconnect...");
         delay(50);
-            
+
         mqtt_reconnect();
     }
     mqttClient.loop();
