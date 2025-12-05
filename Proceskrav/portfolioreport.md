@@ -43,15 +43,21 @@ The software handles data collection, processing, and transmission, with a focus
 
 **Development Process:** The project was developed iteratively, starting with basic data collection, followed by implementation of the trilateration algorithm and testing the system for accuracy in indoor environments.
 
+**Data Serialization:** **JSON** is used to format and transmit data between ESP32 nodes and the processing pipeline.
+
+**Programming Languages:**
+- **C++** for ESP32 firmware and JSON serialization.
+- **C#** for the central data processing pipeline, including trilateration and visualization.
+
+**json** **c++** **#c**
+
 ## Data Collection
 
 **Captured Data**
 
 The ESP32 nodes capture the following information for each detected Wi-Fi signal:
-
-1.  **NodeID** – Identifies the specific ESP32 node collecting the data.
     
-2.  **Device ID / MAC** – Identifies the detected device sending the Wi-Fi probe. This is personal data under GDPR.
+1.  **Node ID / MAC** – Identifies the detected device sending the Wi-Fi probe. This is personal data under GDPR.
     
 3.  **Timestamp** – Records when the packet was captured, enabling temporal correlation between nodes.
     
@@ -68,7 +74,7 @@ The ESP32 nodes capture the following information for each detected Wi-Fi signal
     
 *   **Timestamps** allow synchronization of measurements across multiple nodes to accurately reconstruct movement and location.
     
-*   **NodeID and Device ID** ensure that measurements can be traced back to specific nodes and devices while maintaining privacy via hashing.
+*   **NodeID** ensure that measurements can be traced back to specific nodes and devices while maintaining privacy via hashing.
     
 *   **Payload** provides additional context for testing, debugging, or validating signal data.
     
@@ -277,7 +283,13 @@ Trilateration accuracy depends on proper calibration of the path-loss exponent a
 
 ## Conclusion
 
-Summary of achievements and lessons learned.
+Although the project did not reach full functionality, we made significant progress in understanding how WiFi sniffing, MQTT communication, and trilateration can work together in an indoor positioning system. We successfully captured packets, published data from ESP32 nodes, and built a C# pipeline to process incoming measurements. However, a critical issue with sorting the payloads in the C# application prevents proper synchronization of data, which blocks the final trilateration step.
+
+Throughout the project, we learned that our original system design—where each ESP32 acted as both publisher and subscriber—was too complex and placed unnecessary load on the devices. Moving the processing pipeline to a central computer proved to be a much more stable and scalable approach. We also realized that creating a sequence diagram earlier would have clarified the data flow and saved time during development.
+
+In addition to the technical work, we had valuable discussions about GDPR and how handling MAC addresses and location data requires careful consideration of privacy, data minimization, and pseudonymization.
+
+Even though the final system is not fully completed, the project provided important insights into IoT architecture, data processing challenges, and responsible handling of personal data.
 
 ## References
 
@@ -320,8 +332,7 @@ Summary of achievements and lessons learned.
 >**Mathematics / Trilateration**
 >- SpringerLink. RSSI-based indoor positioning methods. Available at: https://link.springer.com/article/10.1186/s13673-020-00236-8
 >- ChatGPT (OpenAI). Explanation of trilateration and linearized least-squares methods for indoor positioning. December 2025.
-
-
-## Appendices
-
-Additional material such as code snippets and extended tables.
+>
+>**AI Assistance & Development Support**
+>
+>ChatGPT (OpenAI). Extensively used throughout the project for code generation, debugging assistance, error explanation, documentation writing, and refinement of the development process.
