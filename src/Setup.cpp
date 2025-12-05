@@ -62,18 +62,19 @@ void SetupTrilaterationAnchors()
 
 void SetUpPipelineMode()
 {
-    Serial.print("Is this pipeline mode? (Y/N): ");
-    while (!Serial.available())
-    {
-        // wait for input
-    }
+    // Serial.print("Is this pipeline mode? (Y/N): ");
+    // while (!Serial.available())
+    // {
+    //     // wait for input
+    // }
 
-    char c = Serial.read();
-    c = toupper(c); // make case-insensitive
+    // char c = Serial.read();
+    // c = toupper(c); // make case-insensitive
 
-    PipeLineMode = (c == 'Y');
+    // PipeLineMode = (c == 'Y');
 
-    Serial.println(PipeLineMode ? " Yes" : " No");
+    // Serial.println(PipeLineMode ? " Yes" : " No");
+    PipeLineMode = false;
 }
 
 bool PipeLineMode;
